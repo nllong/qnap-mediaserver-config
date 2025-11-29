@@ -4,7 +4,8 @@
 # Radarr: 8992 -> 7878
 # Lidarr: 8993 -> 8686
 # Prowlarr: 8994 -> 9696
-# Speedtest Tracker: 8995 -> 80
+# youtube download: 8995
+# Speedtest Tracker: 8996 -> 80
 # Plex: 32400 -> 32400
 # Tautulli: 32401 -> 8181
 
@@ -151,15 +152,21 @@ services:
     ports:
       - 32401:8181
   speedtest-tracker:
-    image: ghcr.io/alexjustesen/speedtest-tracker:latest
+    image: lscr.io/linuxserver/speedtest-tracker:latest
     container_name: speedtest-tracker
     ports:
-      - 8995:80
+      - 8996:80
     volumes:
       - /share/Container/media_apps/speedtest-tracker/config:/config
       - /share/Container/media_apps/speedtest-tracker/data:/data
     environment:
       - TZ=US/Denver
+      - PUID=1000
+      - PGID=1000
+      - APP_KEY=base64:aQUiYqT+HLveKshZe62ML3RhgmftQ8HmZI4pX558ZOo=
+      # Use SQLite instead of MySQL
+      - DB_CONNECTION=sqlite
+      - DB_DATABASE=/config/database/database.sqlite
     restart: unless-stopped
   cleanup:
     image: alpine
