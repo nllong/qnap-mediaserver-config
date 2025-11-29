@@ -1,0 +1,14 @@
+__pycache__
+.env
+.idea
+.python-version
+.ruff_cache
+.vscode
+.DS_Store
+~$*
+*.whl
+~*.xlsx
+_archive
+
+cache
+dist

@@ -69,7 +69,7 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=US/Denver
-      - UMASK_SET=022 
+      - UMASK_SET=022
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /share/Container/media_apps/lidarr-config:/config
@@ -101,7 +101,7 @@ services:
     hostname: plexmediaserver
     environment:
       - PUID=1000
-      - PGID=1000 
+      - PGID=1000
       - TZ=America/Denver
       - PLEX_CLAIM=claim-Wqx-HLschdbPd9r8XSDq
       - ADVERTISE_IP=http://192.168.1.199:32400/
@@ -110,12 +110,12 @@ services:
       - /share/Container/media_apps/plex/transcode/temp:/transcode
       - /share/media/Movies:/data/movies
       - /share/media/Music:/data/music
-      - /share/media/TVShows:/data/tv_shows      
+      - /share/media/TVShows:/data/tv_shows
       - /share/media/Videos:/data/home_movies
       - /share/media/MusicVideos:/data/music_videos
       - /share/media/MusicVideosChristmas:/data/music/music_videos_christmas
       - /share/media/Audiobooks:/data/audiobooks
-    ports: 
+    ports:
       - 32400:32400/tcp
       - 3005:3005/tcp
       - 8324:8324/tcp
