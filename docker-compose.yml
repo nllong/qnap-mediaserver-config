@@ -102,7 +102,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=America/Denver
+      - TZ=US/Denver
       - PLEX_CLAIM=claim-Wqx-HLschdbPd9r8XSDq
       - ADVERTISE_IP=http://192.168.1.199:32400/
     volumes:
@@ -128,6 +128,18 @@ services:
       - 32413:32413/udp
       - 32414:32414/udp
     restart: unless-stopped
+  tautulli:
+    image: ghcr.io/tautulli/tautulli
+    container_name: tautulli
+    restart: unless-stopped
+    volumes:
+      - /share/Container/media_apps/tautulli/config:/config
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=US/Denver
+    ports:
+      - 32401:8181
   cleanup:
     image: alpine
     container_name: sabnzbd-cleanup
