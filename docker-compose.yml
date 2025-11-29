@@ -161,6 +161,8 @@ services:
       - /share/Container/media_apps/speedtest-tracker/data:/data
     environment:
       - APP_TIMEZONE=America/Denver
+      - TZ=America/Denver
+      - PHP_TZ=America/Denver
       - PUID=1000
       - PGID=1000
       - APP_KEY=base64:aQUiYqT+HLveKshZe62ML3RhgmftQ8HmZI4pX558ZOo=
