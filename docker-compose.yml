@@ -1,3 +1,13 @@
+# There are many exported ports in this docker-compose file. Here is the mapping:
+# Sabnzbd: 8990 -> 8080
+# Sonarr: 8991 -> 8989
+# Radarr: 8992 -> 7878
+# Lidarr: 8993 -> 8686
+# Prowlarr: 8994 -> 9696
+# Speedtest Tracker: 8995 -> 80
+# Plex: 32400 -> 32400
+# Tautulli: 32401 -> 8181
+
 services:
   sabnzbd:
     image: linuxserver/sabnzbd
@@ -140,6 +150,17 @@ services:
       - TZ=US/Denver
     ports:
       - 32401:8181
+  speedtest-tracker:
+    image: ghcr.io/alexjustesen/speedtest-tracker:latest
+    container_name: speedtest-tracker
+    ports:
+      - 8995:80
+    volumes:
+      - /share/Container/media_apps/speedtest-tracker/config:/config
+      - /share/Container/media_apps/speedtest-tracker/data:/data
+    environment:
+      - TZ=US/Denver
+    restart: unless-stopped
   cleanup:
     image: alpine
     container_name: sabnzbd-cleanup
