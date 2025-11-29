@@ -12,3 +12,14 @@ _archive
 
 cache
 dist
+
+# media config folders
+downloads
+lazylibrarian-config
+lidarr-config
+plex
+prowlarr-config
+radarr-config
+sabnzbd-config
+sonarr-config
+tautulli-config
