@@ -148,7 +148,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=US/Denver
+      - TZ=America/Denver
     ports:
       - 32401:8181
   speedtest-tracker:
@@ -160,13 +160,15 @@ services:
       - /share/Container/media_apps/speedtest-tracker/config:/config
       - /share/Container/media_apps/speedtest-tracker/data:/data
     environment:
-      - TZ=US/Denver
+      - APP_TIMEZONE=America/Denver
       - PUID=1000
       - PGID=1000
       - APP_KEY=base64:aQUiYqT+HLveKshZe62ML3RhgmftQ8HmZI4pX558ZOo=
       # Use SQLite instead of MySQL
       - DB_CONNECTION=sqlite
       - DB_DATABASE=/config/database/database.sqlite
+      - SPEEDTEST_SCHEDULE=6 */2 * * *
+
     restart: unless-stopped
   cleanup:
     image: alpine

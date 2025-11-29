@@ -22,4 +22,6 @@ prowlarr-config
 radarr-config
 sabnzbd-config
 sonarr-config
+speedtest-tracker
+!speedtest-tracker/config/database
 tautulli-config
