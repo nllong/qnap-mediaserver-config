@@ -1,0 +1,150 @@
+services:
+  sabnzbd:
+    image: linuxserver/sabnzbd
+    container_name: sabnzbd
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=US/Mountain
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /share/Container/media_apps/sabnzbd-config:/config
+      - /share/Container/media_apps/downloads:/downloads
+    ports:
+      - 8990:8080
+      - 9090:9090
+    restart: unless-stopped
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=US/Denver
+      - UMASK_SET=022
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /share/Container/media_apps/sonarr-config:/config
+      # The download directory in sabnzbd and sonarr must be the same
+      - /share/Container/media_apps/downloads:/downloads
+      - /share/media/TVShows:/tv
+    ports:
+      - 8991:8989
+    restart: unless-stopped
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /share/Container/media_apps/prowlarr-config:/config
+    ports:
+      - 8994:9696
+    restart: unless-stopped
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=US/Denver
+      - UMASK_SET=022
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /share/Container/media_apps/radarr-config:/config
+      # The download directory must be the same as in sabnzbd
+      - /share/Container/media_apps/downloads:/downloads
+      - /share/media/Movies:/movies
+    ports:
+      - 8992:7878
+    restart: unless-stopped
+  lidarr:
+    # music manager
+    image: linuxserver/lidarr
+    container_name: lidarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=US/Denver
+      - UMASK_SET=022 
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /share/Container/media_apps/lidarr-config:/config
+      # The download directory must be the same as in sabnzbd
+      - /share/Container/media_apps/downloads:/downloads
+      - /share/media/Music:/music
+    ports:
+      - 8993:8686
+    restart: unless-stopped
+  #lazylibrarian:
+  #  image: linuxserver/lazylibrarian
+  #  container_name: lazylibrarian
+  #  environment:
+  #    - PUID=1000
+  #    - PGID=1000
+  #    - TZ=US/Denver
+  #    - DOCKER_MODS=linuxserver/calibre-web:calibre|linuxserver/mods:lazylibrarian-ffmpeg #optional
+  #  volumes:
+  #    - /etc/localtime:/etc/localtime:ro
+  #    - /share/Container/media_apps/lazylibrarian-config:/config
+  #    - /share/Container/media_apps/downloads:/downloads
+  #    - /share/media/Books:/books
+  #  ports:
+  #    - 8994:5299
+  #  restart: unless-stopped
+  plex:
+    image: plexinc/pms-docker
+    container_name: plex
+    hostname: plexmediaserver
+    environment:
+      - PUID=1000
+      - PGID=1000 
+      - TZ=America/Denver
+      - PLEX_CLAIM=claim-Wqx-HLschdbPd9r8XSDq
+      - ADVERTISE_IP=http://192.168.1.199:32400/
+    volumes:
+      - /share/Container/media_apps/plex/database:/config
+      - /share/Container/media_apps/plex/transcode/temp:/transcode
+      - /share/media/Movies:/data/movies
+      - /share/media/Music:/data/music
+      - /share/media/TVShows:/data/tv_shows      
+      - /share/media/Videos:/data/home_movies
+      - /share/media/MusicVideos:/data/music_videos
+      - /share/media/MusicVideosChristmas:/data/music/music_videos_christmas
+      - /share/media/Audiobooks:/data/audiobooks
+    ports: 
+      - 32400:32400/tcp
+      - 3005:3005/tcp
+      - 8324:8324/tcp
+      - 32469:32469/tcp
+      # 1900 is DLNA, which I don't think I use with plex and it
+      # conflicts with the NAS's media center DLNA
+      - 1901:1900/udp
+      - 32410:32410/udp
+      - 32412:32412/udp
+      - 32413:32413/udp
+      - 32414:32414/udp
+    restart: unless-stopped
+  cleanup:
+    image: alpine
+    container_name: sabnzbd-cleanup
+    volumes:
+      - /share/Container/media_apps/downloads:/downloads
+    command: >
+      sh -c "while true; do
+               echo \"[cleanup] Running cleanup at $(date)\";
+               find /downloads -type f -mtime +7 -print -delete;
+               find /downloads -type d -empty -print -delete;
+               echo \"[cleanup] Finished cleanup at $(date)\";
+               sleep 86400;
+             done"
+    restart: unless-stopped
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
