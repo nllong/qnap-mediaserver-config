@@ -170,7 +170,15 @@ services:
       - DB_CONNECTION=sqlite
       - DB_DATABASE=/config/database/database.sqlite
       - SPEEDTEST_SCHEDULE=6 */2 * * *
-
+      # Email settings for speedtest result notifications
+      - MAIL_MAILER=smtp
+      - MAIL_HOST=smtp.gmail.com
+      - MAIL_PORT=587
+      - MAIL_USERNAME=nicholas.lee.long@gmail.com
+      - MAIL_PASSWORD=ghyo wyhk zxvv ycqj
+      - MAIL_ENCRYPTION=tls
+      - MAIL_FROM_ADDRESS=nicholas.lee.long@gmail.com
+      - MAIL_FROM_NAME="Speedtest Tracker"
     restart: unless-stopped
   cleanup:
     image: alpine
