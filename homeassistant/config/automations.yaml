@@ -1,0 +1,33 @@
+- id: '1766711584683'
+  alias: Notify when Nicholas leaves home
+  triggers:
+  - entity_id: person.nicholas
+    zone: zone.home
+    event: leave
+    trigger: zone
+  actions:
+  - data:
+      title: Leaving Home
+      message: You just left the home zone.
+    action: notify.mobile_app_jedi_long
+  mode: single
+- id: '1766713939072'
+  alias: Notify - SABnzbd started download
+  description: ''
+  triggers:
+  - entity_id: sensor.sabnzbd_queue_count
+    trigger: state
+  conditions:
+  - condition: template
+    value_template: "{{ trigger.from_state is not none\n   and trigger.to_state is
+      not none\n   and trigger.from_state.state | int == 0\n   and trigger.to_state.state
+      | int > 0 }}\n"
+  actions:
+  - data:
+      title: "SABnzbd Download Started \U0001F4E5"
+      message: 'SABnzbd started downloading: {{ state_attr(''sensor.sabnzbd_queue_count'',
+        ''queue'') | default(''New item'') }}
+
+        '
+    action: notify.mobile_app_jedi_long
+  mode: single

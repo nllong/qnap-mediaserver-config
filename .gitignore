@@ -25,3 +25,37 @@ sonarr-config
 speedtest-tracker
 !speedtest-tracker/config/database
 tautulli-config
+
+# --- Secrets / credentials ---
+secrets.yaml
+**/.storage/*
+**/cloud/*
+**/google_assistant/*
+**/tts/*
+**/deps/*
+**/__pycache__/
+*.db
+*.db-shm
+*.db-wal
+
+# --- Home Assistant runtime data (volatile) ---
+home-assistant_v2.db*
+home-assistant.log*
+OZW_Log.txt
+*.log
+*.log.*
+*.trace
+*.tmp
+*.bak
+
+# --- Backups / archives ---
+*.tar
+*.tar.gz
+*.zip
+backups/
+snapshot*/
+
+# --- Frontend caches ---
+**/.cache/*
+**/.npm/*
+**/.yarn/*
