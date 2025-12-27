@@ -179,7 +179,65 @@ services:
       - MAIL_ENCRYPTION=tls
       - MAIL_FROM_ADDRESS=nicholas.lee.long@gmail.com
       - MAIL_FROM_NAME="Speedtest Tracker"
+    restart: unless-stoppedA
+  homeassistant:
+    container_name: homeassistant
+    image: ghcr.io/home-assistant/home-assistant:stable
     restart: unless-stopped
+    network_mode: host
+    privileged: true
+    environment:
+      - TZ=America/Denver
+    volumes:
+      - ./homeassistant/config:/config
+      - /etc/localtime:/etc/localtime:ro
+  cloudflare-ddns:
+    image: favonia/cloudflare-ddns:1
+    container_name: cloudflare-ddns
+    network_mode: host
+    restart: unless-stopped
+    
+    # Security hardening
+    user: "1000:1000"
+    read_only: true
+    cap_drop: [all]
+    security_opt: [no-new-privileges:true]
+    
+    environment:
+      # Authentication
+      - CLOUDFLARE_API_TOKEN=kesOugxNFlwSCljXe4g6wbxiLuEXSqJK3HC2OuZe
+      
+      # Domains to manage
+      - DOMAINS=home.nicholaslong.org
+      - IP4_DOMAINS=home.nicholaslong.org  # IPv4 only
+      # - IP6_DOMAINS=                   # Disable IPv6 updates
+      
+      # Cloudflare settings - do not proxy, will remove DDNS functionality
+      - PROXIED=false
+      - TTL=1  # Automatic
+      
+      # IP detection
+      - IP4_PROVIDER=cloudflare.trace
+      - IP6_PROVIDER=none                 # Disable if no IPv6
+      
+      # Scheduling
+      - UPDATE_CRON=@every 5m
+      - UPDATE_ON_START=true
+      - TZ=America/Denver
+      
+      # Monitoring
+      - HEALTHCHECKS=https://hc-ping.com/170484c5-f503-4370-9a84-06031760a1db
+      
+      # Logging
+      - EMOJI=true
+      - QUIET=false
+    
+    # Store logs
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
   cleanup:
     image: alpine
     container_name: sabnzbd-cleanup
