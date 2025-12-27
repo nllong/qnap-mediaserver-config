@@ -49,11 +49,8 @@ OZW_Log.txt
 *.bak
 
 # --- Backups / archives ---
-*.tar
-*.tar.gz
 *.zip
-backups/
-snapshot*/
+homeassistant/config/nest
 
 # --- Frontend caches ---
 **/.cache/*
