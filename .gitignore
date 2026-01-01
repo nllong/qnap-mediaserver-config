@@ -25,6 +25,8 @@ sonarr-config
 speedtest-tracker
 !speedtest-tracker/config/database
 tautulli-config
+frigate
+homeassistant
 
 # --- Secrets / credentials ---
 secrets.yaml

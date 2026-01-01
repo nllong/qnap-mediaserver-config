@@ -1,1 +1,89 @@
-{}
+christmas_light_shuffle:
+  mode: restart
+  sequence:
+  - repeat:
+      while:
+      - condition: state
+        entity_id: input_boolean.christmas_shuffle_enabled
+        state: 'on'
+      sequence:
+      - variables:
+          color: "{{ [\n  [255, 0, 0],\n  [0, 180, 0],\n  [255, 200, 120],\n  [255,
+            180, 60]\n] | random }}\n"
+          wait_s: '{{ range(5, 31) | random }}'
+      - target:
+          entity_id:
+          - light.front_room_left
+          - light.front_room_right
+          - light.front_wall_left
+          - light.front_wall_right
+          - light.main_room_left
+          - light.main_room_middle
+          - light.main_room_right
+          - light.main_wall_left
+          - light.main_wall_middle
+          - light.main_wall_right
+        data:
+          brightness: 180
+          transition: 2
+        data_template:
+          rgb_color: '{{ color }}'
+        action: light.turn_on
+      - delay:
+          seconds: '{{ wait_s }}'
+new_script:
+  mode: restart
+  sequence:
+  - target:
+      entity_id: media_player.plex_plex_for_roku_room_of_chairs
+    data:
+      media:
+        media_content_id: plex://77f6fbe55f513cbd0472c253a51b30dbcea711f9/720605?shuffle=1
+        media_content_type: playlist
+        metadata:
+          title: Music Videos - Christmas
+          thumbnail: https://192-168-1-199.d5431204a5064ba692e3c3865e5e79c2.plex.direct:32400/playlists/720605/composite/1766972317?X-Plex-Token=EPuTbgpvMUDEmTDEV2X-
+          media_class: playlist
+          children_media_class: movie
+          browse_entity_id: media_player.plex_plex_for_roku_room_of_chairs
+    action: media_player.play_media
+play_music_videos:
+  sequence:
+  - target:
+      entity_id: media_player.plex_plex_for_roku_room_of_chairs
+    data:
+      media:
+        media_content_id: plex://77f6fbe55f513cbd0472c253a51b30dbcea711f9/720609?shuffle=1
+        media_content_type: playlist
+        metadata:
+          title: Music Videos
+          thumbnail: https://192-168-1-199.d5431204a5064ba692e3c3865e5e79c2.plex.direct:32400/playlists/720609/composite/1766973001?X-Plex-Token=EPuTbgpvMUDEmTDEV2X-
+          media_class: playlist
+          children_media_class: movie
+          browse_entity_id: media_player.plex_plex_for_roku_room_of_chairs
+    action: media_player.play_media
+  mode: restart
+  alias: Play Music Videos
+  description: ''
+start_roku_plex_play_music_videos:
+  alias: Start Roku Plex + Play Music Videos
+  mode: restart
+  sequence:
+  - target:
+      entity_id: media_player.room_of_chairs
+    action: media_player.turn_on
+  - delay:
+      seconds: 2
+  - target:
+      entity_id: media_player.room_of_chairs
+    data:
+      source: Plex - Free Movies & TV
+    action: media_player.select_source
+  - delay:
+      seconds: 15
+  - target:
+      entity_id: media_player.plex_plex_for_roku_room_of_chairs
+    data:
+      media_content_type: playlist
+      media_content_id: plex://77f6fbe55f513cbd0472c253a51b30dbcea711f9/720609?shuffle=1
+    action: media_player.play_media

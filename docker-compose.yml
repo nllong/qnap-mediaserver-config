@@ -238,6 +238,27 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+  frigate:
+    container_name: frigate
+    image: ghcr.io/blakeblackshear/frigate:stable
+    restart: unless-stopped
+    privileged: true
+
+    network_mode: host
+
+    shm_size: "512mb"
+
+    volumes:
+      - /share/CACHEDEV1_DATA/Container/media_apps/frigate/config:/config
+      - /share/CACHEDEV1_DATA/Container/media_apps/frigate/media:/media/frigate
+      #- /share/CACHEDEV3_DATA/frigate:/media/frigate
+      - /etc/localtime:/etc/localtime:ro
+
+    devices:
+      - /dev/dri:/dev/dri
+
+    environment:
+      FRIGATE_RTSP_PASSWORD: "p4szW0rd_for_me"
   cleanup:
     image: alpine
     container_name: sabnzbd-cleanup
