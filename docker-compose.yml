@@ -8,6 +8,7 @@
 # Speedtest Tracker: 8996 -> 80
 # Plex: 32400 -> 32400
 # Tautulli: 32401 -> 8181
+# homeassistant: 9090 (external) -> 8321 (local) -> 8321
 
 services:
   sabnzbd:
@@ -186,10 +187,11 @@ services:
     restart: unless-stopped
     network_mode: host
     privileged: true
+    user: "1000:100"
     environment:
       - TZ=America/Denver
     volumes:
-      - ./homeassistant/config:/config
+      - /share/Container/media_apps/homeassistant-config/config:/config
       - /etc/localtime:/etc/localtime:ro
   cloudflare-ddns:
     image: favonia/cloudflare-ddns:1
@@ -198,7 +200,7 @@ services:
     restart: unless-stopped
     
     # Security hardening
-    user: "1000:1000"
+    user: "1000:100"
     read_only: true
     cap_drop: [all]
     security_opt: [no-new-privileges:true]
@@ -249,8 +251,8 @@ services:
     shm_size: "512mb"
 
     volumes:
-      - /share/CACHEDEV1_DATA/Container/media_apps/frigate/config:/config
-      - /share/CACHEDEV1_DATA/Container/media_apps/frigate/media:/media/frigate
+      - /share/CACHEDEV1_DATA/Container/media_apps/frigate-config/config:/config
+      - /share/CACHEDEV1_DATA/Container/media_apps/frigate-config/media:/media/frigate
       #- /share/CACHEDEV3_DATA/frigate:/media/frigate
       - /etc/localtime:/etc/localtime:ro
 

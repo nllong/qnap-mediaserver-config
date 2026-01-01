@@ -25,8 +25,8 @@ sonarr-config
 speedtest-tracker
 !speedtest-tracker/config/database
 tautulli-config
-frigate
-homeassistant
+frigate-config
+homeassistant-config
 
 # --- Secrets / credentials ---
 secrets.yaml
@@ -52,7 +52,6 @@ OZW_Log.txt
 
 # --- Backups / archives ---
 *.zip
-homeassistant/config/nest
 
 # --- Frontend caches ---
 **/.cache/*
