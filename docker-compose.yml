@@ -105,9 +105,11 @@ services:
     image: plexinc/pms-docker
     container_name: plex
     hostname: plexmediaserver
-    user: "1000:100"
+    # Must set puid and pgid in env var for plex
     environment:
       - TZ=US/Denver
+      - PUID=1000
+      - PGID=100
       - PLEX_CLAIM=claim-Wqx-HLschdbPd9r8XSDq
       - ADVERTISE_IP=http://192.168.1.199:32400/
     volumes:
@@ -136,27 +138,32 @@ services:
   tautulli:
     image: ghcr.io/tautulli/tautulli
     container_name: tautulli
-    user: "1000:100"
     restart: unless-stopped
     volumes:
       - /share/Container/media_apps/tautulli-config:/config
+    # Must set puid and pgid in env var for this container
     environment:
       - TZ=America/Denver
+      - PUID=1000
+      - PGID=100
     ports:
       - 32401:8181
   speedtest-tracker:
     image: lscr.io/linuxserver/speedtest-tracker:latest
     container_name: speedtest-tracker
-    user: "1000:100"
     ports:
       - 8996:80
     volumes:
       - /share/Container/media_apps/speedtest-tracker/config:/config
       - /share/Container/media_apps/speedtest-tracker/data:/data
+    # Must set puid and pgid in env var for this container
     environment:
+      - TZ=US/Denver
       - APP_TIMEZONE=America/Denver
       - TZ=America/Denver
       - PHP_TZ=America/Denver
+      - PUID=1000
+      - PGID=100
       - APP_KEY=base64:aQUiYqT+HLveKshZe62ML3RhgmftQ8HmZI4pX558ZOo=
       # Use SQLite instead of MySQL
       - DB_CONNECTION=sqlite
