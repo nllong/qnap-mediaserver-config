@@ -14,9 +14,8 @@ services:
   sabnzbd:
     image: linuxserver/sabnzbd
     container_name: sabnzbd
+    user: "1000:100"
     environment:
-      - PUID=1000
-      - PGID=1000
       - TZ=US/Mountain
     volumes:
       - /etc/localtime:/etc/localtime:ro
@@ -29,9 +28,8 @@ services:
   sonarr:
     image: linuxserver/sonarr
     container_name: sonarr
+    user: "1000:100"
     environment:
-      - PUID=1000
-      - PGID=1000
       - TZ=US/Denver
       - UMASK_SET=022
     volumes:
@@ -46,9 +44,8 @@ services:
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
+    user: "1000:100"
     environment:
-      - PUID=1000
-      - PGID=1000
       - TZ=Etc/UTC
     volumes:
       - /etc/localtime:/etc/localtime:ro
@@ -59,9 +56,8 @@ services:
   radarr:
     image: linuxserver/radarr
     container_name: radarr
+    user: "1000:100"
     environment:
-      - PUID=1000
-      - PGID=1000
       - TZ=US/Denver
       - UMASK_SET=022
     volumes:
@@ -77,9 +73,8 @@ services:
     # music manager
     image: linuxserver/lidarr
     container_name: lidarr
+    user: "1000:100"
     environment:
-      - PUID=1000
-      - PGID=1000
       - TZ=US/Denver
       - UMASK_SET=022
     volumes:
@@ -94,9 +89,8 @@ services:
   #lazylibrarian:
   #  image: linuxserver/lazylibrarian
   #  container_name: lazylibrarian
+  #  user: "1000:100"
   #  environment:
-  #    - PUID=1000
-  #    - PGID=1000
   #    - TZ=US/Denver
   #    - DOCKER_MODS=linuxserver/calibre-web:calibre|linuxserver/mods:lazylibrarian-ffmpeg #optional
   #  volumes:
@@ -111,9 +105,8 @@ services:
     image: plexinc/pms-docker
     container_name: plex
     hostname: plexmediaserver
+    user: "1000:100"
     environment:
-      - PUID=1000
-      - PGID=1000
       - TZ=US/Denver
       - PLEX_CLAIM=claim-Wqx-HLschdbPd9r8XSDq
       - ADVERTISE_IP=http://192.168.1.199:32400/
@@ -143,18 +136,18 @@ services:
   tautulli:
     image: ghcr.io/tautulli/tautulli
     container_name: tautulli
+    user: "1000:100"
     restart: unless-stopped
     volumes:
       - /share/Container/media_apps/tautulli-config:/config
     environment:
-      - PUID=1000
-      - PGID=1000
       - TZ=America/Denver
     ports:
       - 32401:8181
   speedtest-tracker:
     image: lscr.io/linuxserver/speedtest-tracker:latest
     container_name: speedtest-tracker
+    user: "1000:100"
     ports:
       - 8996:80
     volumes:
@@ -164,8 +157,6 @@ services:
       - APP_TIMEZONE=America/Denver
       - TZ=America/Denver
       - PHP_TZ=America/Denver
-      - PUID=1000
-      - PGID=1000
       - APP_KEY=base64:aQUiYqT+HLveKshZe62ML3RhgmftQ8HmZI4pX558ZOo=
       # Use SQLite instead of MySQL
       - DB_CONNECTION=sqlite
@@ -197,13 +188,11 @@ services:
     image: favonia/cloudflare-ddns:1
     container_name: cloudflare-ddns
     network_mode: host
-    restart: unless-stopped
-
-    # Security hardening
     user: "1000:100"
     read_only: true
     cap_drop: [all]
-    security_opt: [no-new-privileges:true]
+    # security_opt: [no-new-privileges:true]
+    restart: unless-stopped
 
     environment:
       # Authentication
@@ -243,17 +232,16 @@ services:
   frigate:
     container_name: frigate
     image: ghcr.io/blakeblackshear/frigate:stable
+    user: "1000:100"
     restart: unless-stopped
     privileged: true
-
     network_mode: host
-
     shm_size: "512mb"
 
     volumes:
-      - /share/CACHEDEV1_DATA/Container/media_apps/frigate-config/config:/config
-      - /share/CACHEDEV1_DATA/Container/media_apps/frigate-config/media:/media/frigate
-      #- /share/CACHEDEV3_DATA/frigate:/media/frigate
+      - /share/Container/media_apps/frigate-config/config:/config
+      - /share/Container/media_apps/frigate-config/media:/media/frigate
+      #- /share/frigate:/media/frigate
       - /etc/localtime:/etc/localtime:ro
 
     devices:

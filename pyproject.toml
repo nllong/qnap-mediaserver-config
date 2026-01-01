@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "qnap-config"
 version = "0.1.0"
-description = "pyproject for holding python"
+description = "pyproject for qnap configuration"
 authors = ["Nicholas Long <nllong>"]
 license = "BSD"
 packages = [
