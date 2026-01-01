@@ -6,6 +6,7 @@
 # Prowlarr: 8994 -> 9696
 # youtube download: 8995
 # Speedtest Tracker: 8996 -> 80
+# agregarr: 8997 -> 7171
 # Plex: 32400 -> 32400
 # Tautulli: 32401 -> 8181
 # homeassistant: 9090 (external) -> 8321 (local) -> 8321
@@ -134,6 +135,20 @@ services:
       - 32412:32412/udp
       - 32413:32413/udp
       - 32414:32414/udp
+    restart: unless-stopped
+  agregarr:
+    image: agregarr/agregarr:latest
+    container_name: agregarr
+    volumes:
+      - /share/Conatiner/agregarr-config:/app/config
+      - /share/media/Movies:/data/movies
+      - /share/media/TVShows:/data/tv
+    environment:
+      - TZ=US/Denver
+      - PUID=1000
+      - PGID=100
+    ports:
+      - 8997:7171
     restart: unless-stopped
   tautulli:
     image: ghcr.io/tautulli/tautulli
