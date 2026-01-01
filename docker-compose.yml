@@ -159,7 +159,7 @@ services:
     # Must set puid and pgid in env var for this container
     environment:
       - TZ=America/Denver
-      - PUID=1000
+      - PUID=10
       - PGID=100
     ports:
       - 32401:8181
@@ -169,8 +169,8 @@ services:
     ports:
       - 8996:80
     volumes:
-      - /share/Container/media_apps/speedtest-tracker/config:/config
-      - /share/Container/media_apps/speedtest-tracker/data:/data
+      - /share/Container/media_apps/speedtest-tracker-config/config:/config
+      - /share/Container/media_apps/speedtest-tracker-config/data:/data
     # Must set puid and pgid in env var for this container
     environment:
       - TZ=US/Denver

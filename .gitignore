@@ -22,8 +22,7 @@ prowlarr-config
 radarr-config
 sabnzbd-config
 sonarr-config
-speedtest-tracker
-!speedtest-tracker/config/database
+speedtest-tracker-config
 tautulli-config
 frigate-config
 homeassistant-config
