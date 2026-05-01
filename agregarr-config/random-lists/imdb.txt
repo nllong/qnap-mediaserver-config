@@ -1,0 +1,14 @@
+# IMDb Random Lists Configuration
+#
+# Add one IMDb list URL per line below to override the default true random search
+# Set enabled=true and add custom URLs below to use your own lists instead
+
+enabled=false
+
+# Example URLs (set enabled=true to activate):
+
+https://www.imdb.com/list/ls004285815/
+https://www.imdb.com/list/ls058982944/
+https://www.imdb.com/list/ls055592025/
+https://www.imdb.com/list/ls091520106/
+https://www.imdb.com/list/ls056092300/

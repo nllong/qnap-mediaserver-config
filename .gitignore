@@ -4,17 +4,20 @@ __pycache__
 .python-version
 .ruff_cache
 .vscode
+.bash_history
 .DS_Store
 ~$*
 *.whl
 ~*.xlsx
 _archive
 
+.cache
 cache
 dist
 
 # media config folders
 downloads
+agregarr-config/posters
 lazylibrarian-config
 lidarr-config
 plex
@@ -26,6 +29,10 @@ speedtest-tracker-config
 tautulli-config
 frigate-config
 homeassistant-config
+
+# qbittorrent
+qbittorrent/qbit/qBittorrent/
+
 
 # --- Secrets / credentials ---
 secrets.yaml

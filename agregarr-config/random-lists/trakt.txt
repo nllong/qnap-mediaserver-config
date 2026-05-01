@@ -1,0 +1,14 @@
+# Trakt Random Lists Configuration
+#
+# Add one Trakt list URL per line below to override the default true random search
+# Set enabled=true and add custom URLs below to use your own lists instead
+
+enabled=false
+
+# Example URLs (set enabled=true to activate):
+
+https://trakt.tv/users/justin/lists/imdb-top-250
+https://trakt.tv/users/giladg/lists/netflix-originals
+https://trakt.tv/users/sp1ti/lists/best-of-2023
+https://trakt.tv/users/hdlists/lists/popular-tv-shows
+https://trakt.tv/users/movistapp/lists/oscar-winners

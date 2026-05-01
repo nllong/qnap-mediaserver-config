@@ -32,7 +32,7 @@ services:
     user: "1000:100"
     environment:
       - TZ=US/Denver
-      - UMASK_SET=022
+      - UMASK_SET=002
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /share/Container/media_apps/sonarr-config:/config
@@ -60,7 +60,7 @@ services:
     user: "1000:100"
     environment:
       - TZ=US/Denver
-      - UMASK_SET=022
+      - UMASK_SET=002
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /share/Container/media_apps/radarr-config:/config
@@ -77,7 +77,7 @@ services:
     user: "1000:100"
     environment:
       - TZ=US/Denver
-      - UMASK_SET=022
+      - UMASK_SET=002
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /share/Container/media_apps/lidarr-config:/config
@@ -87,21 +87,6 @@ services:
     ports:
       - 8993:8686
     restart: unless-stopped
-  #lazylibrarian:
-  #  image: linuxserver/lazylibrarian
-  #  container_name: lazylibrarian
-  #  user: "1000:100"
-  #  environment:
-  #    - TZ=US/Denver
-  #    - DOCKER_MODS=linuxserver/calibre-web:calibre|linuxserver/mods:lazylibrarian-ffmpeg #optional
-  #  volumes:
-  #    - /etc/localtime:/etc/localtime:ro
-  #    - /share/Container/media_apps/lazylibrarian-config:/config
-  #    - /share/Container/media_apps/downloads:/downloads
-  #    - /share/media/Books:/books
-  #  ports:
-  #    - 8994:5299
-  #  restart: unless-stopped
   plex:
     image: plexinc/pms-docker
     container_name: plex
@@ -140,7 +125,7 @@ services:
     image: agregarr/agregarr:latest
     container_name: agregarr
     volumes:
-      - /share/Conatiner/agregarr-config:/app/config
+      - /share/Container/media_apps/agregarr-config:/app/config
       - /share/media/Movies:/data/movies
       - /share/media/TVShows:/data/tv
     environment:
@@ -200,7 +185,6 @@ services:
     restart: unless-stopped
     network_mode: host
     privileged: true
-    user: "1000:100"
     environment:
       - TZ=America/Denver
     volumes:
@@ -251,26 +235,41 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-  frigate:
-    container_name: frigate
-    image: ghcr.io/blakeblackshear/frigate:stable
-    user: "1000:100"
-    restart: unless-stopped
-    privileged: true
-    network_mode: host
-    shm_size: "512mb"
-
-    volumes:
-      - /share/Container/media_apps/frigate-config/config:/config
-      - /share/Container/media_apps/frigate-config/media:/media/frigate
-      #- /share/frigate:/media/frigate
-      - /etc/localtime:/etc/localtime:ro
-
+  gluetun:
+    image: qmcgaw/gluetun:latest
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN
     devices:
-      - /dev/dri:/dev/dri
-
+      - /dev/net/tun:/dev/net/tun
+    ports:
+      - 8998:8080
+      - 6881:6881/tcp
+      - 6881:6881/udp
     environment:
-      FRIGATE_RTSP_PASSWORD: "p4szW0rd_for_me"
+      - VPN_SERVICE_PROVIDER=protonvpn
+      - VPN_TYPE=wireguard
+      - WIREGUARD_PRIVATE_KEY=uPUFvXTPbP/iM7g2o/ZARX0wwWf8O4iX6wfQDN1bDl8=
+      - SERVER_COUNTRIES=United States
+      - TZ=America/Denver
+    volumes:
+      - /share/Container/media_apps/gluetun:/gluetun
+    restart: unless-stopped
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    network_mode: "service:gluetun"
+    depends_on:
+      - gluetun
+    environment:
+      - PUID=1000
+      - PGID=100
+      - TZ=America/Denver
+      - WEBUI_PORT=8080
+    volumes:
+      - /share/Container/media_apps/qbittorrent/qbit:/config
+      - /share/Container/media_apps/downloads:/downloads
+    restart: unless-stopped
   cleanup:
     image: alpine
     container_name: sabnzbd-cleanup

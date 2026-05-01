@@ -1,0 +1,77 @@
+services:
+  lazylibrarian:
+   image: linuxserver/lazylibrarian
+   container_name: lazylibrarian
+   user: "1000:100"
+   environment:
+     - TZ=US/Denver
+     - DOCKER_MODS=linuxserver/calibre-web:calibre|linuxserver/mods:lazylibrarian-ffmpeg #optional
+   volumes:
+     - /etc/localtime:/etc/localtime:ro
+     - /share/Container/media_apps/lazylibrarian-config:/config
+     - /share/Container/media_apps/downloads:/downloads
+     - /share/media/Books:/books
+   ports:
+     - 8994:5299
+   restart: unless-stopped
+
+   gluetun:
+    image: qmcgaw/gluetun
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    ports:
+      - 8998:8080        # qBittorrent WebUI
+      - 6881:6881
+      - 6881:6881/udp
+    environment:
+      - VPN_SERVICE_PROVIDER=custom
+      - VPN_TYPE=wireguard
+      - WIREGUARD_PRIVATE_KEY=uPUFvXTPbP/iM7g2o/ZARX0wwWf8O4iX6wfQDN1bDl8=
+      - WIREGUARD_ADDRESSES=10.2.0.2/32
+      - DNS_ADDRESS=10.2.0.1
+      - WIREGUARD_PUBLIC_KEY=TH87YVmOQBoo1Mir13INlDzvTOlvsi9dWmAp+IF3bRg=
+      - WIREGUARD_ENDPOINT_IP=149.34.244.169
+      - WIREGUARD_ENDPOINT_PORT=51820
+      - TZ=America/Denver
+    volumes:
+      - /share/Container/media_apps/gluetun:/gluetun
+      - /share/Container/media_apps/gluetun/proton.conf:/glueton/wireguard/wg0.conf:ro
+    restart: unless-stopped
+
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent
+    container_name: qbittorrent
+    network_mode: "service:gluetun"
+    environment:
+      - WEBUI_PORT=8080  # internal ip since on same network
+      - PUID=1000
+      - PGID=100
+    volumes:
+      - /share/Container/media_apps/qbittorrent/qbit:/config
+      - /share/Container/media_apps/qbittorrent/downloads:/downloads
+    depends_on:
+      - gluetun
+    restart: unless-stopped
+  frigate:
+   container_name: frigate
+   image: ghcr.io/blakeblackshear/frigate:stable
+   user: "1000:100"
+   restart: unless-stopped
+   privileged: true
+   network_mode: host
+   shm_size: "512mb"
+
+   volumes:
+     - /share/Container/media_apps/frigate-config/config:/config
+     - /share/Container/media_apps/frigate-config/media:/media/frigate
+     #- /share/frigate:/media/frigate
+     - /etc/localtime:/etc/localtime:ro
+
+   devices:
+     - /dev/dri:/dev/dri
+
+   environment:
+     FRIGATE_RTSP_PASSWORD: "p4szW0rd_for_me"

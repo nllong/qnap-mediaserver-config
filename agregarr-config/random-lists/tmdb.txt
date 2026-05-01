@@ -1,0 +1,14 @@
+# TMDB Random Collections Configuration
+#
+# Add one TMDB collection URL per line below to override the default true random search
+# Set enabled=true and add custom URLs below to use your own collections instead
+
+enabled=false
+
+# Example URLs (set enabled=true to activate):
+
+https://www.themoviedb.org/collection/1570
+https://www.themoviedb.org/collection/448150
+https://www.themoviedb.org/collection/9485
+https://www.themoviedb.org/collection/86311
+https://www.themoviedb.org/collection/131295

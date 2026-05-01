@@ -1,0 +1,50 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 7
+    },
+    "auditLog": "/app/config/logs/.e48010093255af583a7ad461e0d8f9fe13f45f67-audit.json",
+    "files": [
+        {
+            "date": 1776988801991,
+            "name": "/app/config/logs/agregarr-2026-04-24.log",
+            "hash": "a0ec0922d6e82865a3a834f16ecb0d6890a879f30f0648ac2d8b2c882a6f17e7"
+        },
+        {
+            "date": 1777075201707,
+            "name": "/app/config/logs/agregarr-2026-04-25.log",
+            "hash": "9009b9dc79d77f5d8ae7f134f3540d0ad2a794c88aa5aec62437487d059b1345"
+        },
+        {
+            "date": 1777161602143,
+            "name": "/app/config/logs/agregarr-2026-04-26.log",
+            "hash": "3765c2f03fc632ded81e530e99718c105d557f080aa296a3d13bf45a9ebedd1e"
+        },
+        {
+            "date": 1777248002036,
+            "name": "/app/config/logs/agregarr-2026-04-27.log",
+            "hash": "81a300257d53b4849bec80a52dea89cc49960c73ac7ee902397cdc07b445be39"
+        },
+        {
+            "date": 1777334401434,
+            "name": "/app/config/logs/agregarr-2026-04-28.log",
+            "hash": "7ee00ab6380e546903c0d102187d6de8264076a6b3b2548db2745521dd8b38af"
+        },
+        {
+            "date": 1777420802182,
+            "name": "/app/config/logs/agregarr-2026-04-29.log",
+            "hash": "e7f84bcf858611844e60db18e72a8de9794ca87bb58b427c43626706aa53d3c8"
+        },
+        {
+            "date": 1777507201342,
+            "name": "/app/config/logs/agregarr-2026-04-30.log",
+            "hash": "352dddd2dbd4564ef8fe63ed23ef9b69e43d9536a6fc842415e484cf57966841"
+        },
+        {
+            "date": 1777593600008,
+            "name": "/app/config/logs/agregarr-2026-05-01.log",
+            "hash": "24ae4bf1362c87fb365d17d98b625c65c2db0ee6c0574addda59557470d23102"
+        }
+    ],
+    "hashType": "sha256"
+}

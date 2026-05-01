@@ -1,0 +1,14 @@
+# Letterboxd Random Lists Configuration
+#
+# Add one Letterboxd list URL per line below to override the default true random search
+# Set enabled=true and add custom URLs below to use your own lists instead
+
+enabled=false
+
+# Example URLs (set enabled=true to activate):
+
+https://letterboxd.com/dave/list/reddit-top-250/
+https://letterboxd.com/lifeasfiction/list/letterboxd-top-250/
+https://letterboxd.com/crew/list/popular-reviews/
+https://letterboxd.com/bestofrt/list/best-of-rotten-tomatoes/
+https://letterboxd.com/cinema/list/criterion-collection/
