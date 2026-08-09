@@ -33,6 +33,9 @@ homeassistant-config
 # qbittorrent
 qbittorrent/qbit/qBittorrent/
 
+# process ID files
+*.pid
+
 
 # --- Secrets / credentials ---
 secrets.yaml
@@ -55,6 +58,10 @@ OZW_Log.txt
 *.trace
 *.tmp
 *.bak
+
+# agregarr runtime data
+agregarr-config/logs/
+agregarr-config/tmdb-poster-cache/
 
 # --- Backups / archives ---
 *.zip
